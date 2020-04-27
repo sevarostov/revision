@@ -1,0 +1,23 @@
+{% extends '@Portal/base.html.twig' %}
+{% form_theme edit_form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>Редактирование проверки</h1>
+
+		{{ form_start(edit_form) }}
+		{{ form_widget(edit_form) }}
+		<input type="submit" value="Сохранить" class="btn btn-success"/>
+		{{ form_end(edit_form) }}
+
+		<hr>
+
+		<div class="row">
+			<div class="col-lg-1">
+				<a title="К списку" href="{{ path('portal_revision') }}" class="btn btn-lg btn-success fa fa-th-list"></a>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

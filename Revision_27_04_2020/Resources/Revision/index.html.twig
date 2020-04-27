@@ -1,0 +1,149 @@
+{% extends '@Portal/base.html.twig' %}
+
+{% block title %} Реестр плановых проверок {% endblock %}
+{% block body %}
+
+	<div class="container">
+		<h1>Перечень плановых проверок</h1>
+
+		<div class="row">
+			{% if filter is not null %}
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Фильтры</h5>
+							{% form_theme filter 'bootstrap_3_layout.html.twig' %}
+							{{ form_start(filter) }}
+							<div class="row">
+								<div class="col-lg-6">{{ form_row(filter.user) }}</div>
+								<div class="col-lg-6">{{ form_row(filter.revisor) }}</div>
+								<div class="col-lg-6">
+									<label>Дата начала проверки</label>
+									<div class="row">
+										<div class="col-lg-6">
+											{{ form_row(filter.startFrom) }}
+										</div>
+										<div class="col-lg-6">
+											{{ form_row(filter.startTill) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<label>Дата окончания проверки</label>
+									<div class="row">
+										<div class="col-lg-6">
+											{{ form_row(filter.endFrom) }}
+										</div>
+										<div class="col-lg-6">
+											{{ form_row(filter.endTill) }}
+										</div>
+									</div>
+								</div>
+							</div>
+							<input type="submit" value="Искать" class="btn btn-success"/>
+							<a href="#" class="reset">Сбросить фильтры</a>
+							{{ form_end(filter) }}
+						</div>
+					</div>
+				</div>
+			{% endif %}
+			<div class="col-lg-12" style="margin: 20px 0;">
+				<div class="row">
+					<div class="col-lg-6 text-left"><a title="Выгрузка в .xlsx" class="btn btn-success"
+					                         href="{{ path('portal_revision_export') }}">
+							<span class="fa fa-upload"></span> Выгрузка реестра</a></div>
+					<div class="col-lg-6 text-right">
+						<a title="Импорт из .xlsx" data-toggle="modal" class="btn btn-success"
+					                         data-target="#import-revision" href="#">
+							<span class="fa fa-download"></span> Импорт данных</a>
+						<a title="Шаблон .xlsx" class="btn btn-success"
+						   href="/template/Reestr_import.xlsx">
+							<span class="fa fa-upload"></span> Скачать шаблон</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="import-revision" role="dialog">
+			<div class="modal-dialog">
+
+				<form method="post" enctype="multipart/form-data" action="{{ path('portal_revision_import') }}">
+					<div class="modal-content">
+						<div class="modal-header bg-success">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Импорт плановых проверок</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<input class="form-control" type="file" name="file">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-success">Импорт</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+
+		{% if revisions is not empty %}
+			<div class="table-responsive table-end">
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>N</th>
+						<th>Проверяемый СМП</th>
+						<th>Контролирующий орган</th>
+						<th>Плановый период проверки</th>
+						<th>Плановая длительность</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tbody>
+					{% for item in revisions %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ item.user.name }}</td>
+							<td>{{ item.revisor.name }}</td>
+							<td>{{ item.startDate.format('d.m.Y') }} - {{ item.endDate.format('d.m.Y') }}</td>
+							<td>{{ item.length }}</td>
+							<td nowrap="nowrap">
+								<a href="{{ path('portal_revision_show', {'id': item.id}) }}"
+								   class="btn btn-success fa fa-play" title="Карточка"></a>
+								<a href="{{ path('portal_revision_edit', {'id': item.id}) }}"
+								   class="btn btn-success fa fa-pencil" title="Редактировать"></a>
+								<a href="{{ path('portal_revision_delete', {'id': item.id}) }}" class="btn btn-danger fa fa-times remove-confirm" title="Удалить"></a>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+		{% else %}
+
+			Список пуст
+
+		{% endif %}
+
+		<div>
+			<a title="Добавить" href="{{ path('portal_revision_new') }}" class="btn btn-lg btn-success fa fa-plus"></a>
+		</div>
+	</div>
+
+
+	<script>
+		$(function(){
+
+			$('form a.reset').click(function(e){
+				e.preventDefault();
+
+				$(this).parents('form').find('select,input[type=text],input[type=hidden],input[type=date]').val('');
+				$(this).parents('form').submit();
+			});
+		});
+	</script>
+{% endblock %}

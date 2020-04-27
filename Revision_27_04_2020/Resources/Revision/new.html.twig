@@ -1,0 +1,20 @@
+{% extends '@Portal/base.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>Добавление проверки</h1>
+
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		<input type="submit" value="Создать" class="btn btn-success"/>
+		{{ form_end(form) }}
+
+		<hr>
+
+		<div>
+			<a title="К списку" href="{{ path('portal_revision') }}" class="btn btn-lg btn-success fa fa-th-list"></a>
+		</div>
+	</div>
+
+{% endblock %}

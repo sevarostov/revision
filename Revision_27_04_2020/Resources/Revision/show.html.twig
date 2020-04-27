@@ -1,0 +1,51 @@
+{% extends '@Portal/base.html.twig' %}
+
+{% block body %}
+	<div class="container">
+		<h1>Проверка (просмотр)</h1>
+
+		<div class="table-responsive table-end">
+			<table class="table table-striped">
+				<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ item.id }}</td>
+				</tr>
+				<tr>
+					<th>Проверяемый СМП</th>
+					<td>{{ item.user.name }}</td>
+				</tr>
+				<tr>
+					<th>Контролирующий орган</th>
+					<td>{{ item.revisor.name }}</td>
+				</tr>
+				<tr>
+					<th>Дата начала проверки</th>
+					<td>{{ item.startDate.format('d-m-Y') }}</td>
+				</tr>
+				<tr>
+					<th>Дата окончания проверки</th>
+					<td>{{ item.endDate.format('d-m-Y') }}</td>
+				</tr>
+				<tr>
+					<th>Плановая длительность</th>
+					<td>{{ item.length }}</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr>
+
+		<div class="row">
+			<div class="col-lg-1">
+				<a title="К списку" href="{{ path('portal_revision') }}"
+				   class="btn btn-lg btn-success fa fa-th-list"></a>
+			</div>
+
+			<div class="col-lg-1">
+				<a title="Редактировать" href="{{ path('portal_revision_edit', { 'id': item.id }) }}"
+				   class="btn btn-lg btn-success fa fa-pencil"></a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

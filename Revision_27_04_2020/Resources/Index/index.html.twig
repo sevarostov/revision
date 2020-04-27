@@ -1,0 +1,56 @@
+{% extends '@Portal/base.html.twig' %}
+
+{% block title %}  {% endblock %}
+{% block body %}
+	<!-- Page Header -->
+	<!-- Set your background image for this header on the line below. -->
+	<header class="intro-header" style="background-image: url('../img/home-bg.jpg')">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+					<div class="site-heading">
+						<h1>МОЙ ДЕНЬ</h1>
+						<hr class="small">
+						<span class="subheading">повседневная жизнь и не только</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Main Content -->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+				{% if recommendedArticles|length %}
+					{% for item in recommendedArticles %}
+						<div class="post-preview">
+							<a href="/article/index/{{ item.id }}">
+								<h2 class="post-title">
+									{{ item.name }}
+									<hr>
+									<img class="img-responsive img-shadow" src="..{{ item.preview }}" alt=""></h2>
+								<h3 class="post-subtitle">
+									{{ item.shortName }}
+								</h3>
+
+							</a>
+							<p class="post-meta">{{ item.date|date('Y-m-d h:i') }}</p>
+						</div>
+						<hr>
+					{% endfor %}
+				{% endif %}
+
+
+				<!-- Pager -->
+				<ul class="pager">
+					<li class="next">
+						<a href="/post/">Все статьи &rarr;</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+{% endblock %}
