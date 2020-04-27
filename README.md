@@ -24,3 +24,4 @@ CRUD
 Приложение на Symfony 4.4, требует, в т.ч.  библиотеки 
 "lifo/typeahead-bundle": "^2.0",
 "mk-j/php_xlsxwriter": "^0.37.0",
+xlsx2csv
